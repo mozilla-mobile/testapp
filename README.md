@@ -3,7 +3,7 @@ testapp
 
 Page for testing web page controls
 
-Let's test!
+Published directly to github.io:
 https://mozilla-mobile.github.io/testapp/
 
 Forked from:
