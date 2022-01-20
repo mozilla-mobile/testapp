@@ -1,6 +1,6 @@
 {
   "name": "Yay an app with a super long name",
-  "short_name": "yay app",
+  "short_name": "TEST_APP",
   "display": "standalone",
   "theme_color": "#FF69B4",
   "icons": [{
