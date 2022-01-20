@@ -33,6 +33,12 @@
 </section>
 
 <section>
+    <p class="header">Test Camera & Microphone Dialogue</p>
+    <input id=audioVideo  type=button value="Camera & Microphone" onclick=open_audioVideo() >
+    <p id="audioVideo-result"></p>
+</section>
+
+<section>
     <p class="header">Test Notifications Dialogue</p>
     <input id=notify type=button value="Open notifications dialogue" onclick=open_notifications() >
     <p id="notifications-result"></p>
@@ -41,51 +47,65 @@
 <script>
    // Grab elements, create settings, etc.
    function open_camera() {
-	var video = document.getElementById('video');
+        var video = document.getElementById('video');
 
-	// Get access to the camera!
-	if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-	    // Not adding `{ audio: true }` since we only want video now
-	    navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function(stream) {
-                document.getElementById('camera-result').innerText = "Camera allowed";
-            })
-            .catch(function(err) {
-                document.getElementById('camera-result').innerText = "Camera not allowed";
-            });
-	}
+        // Get access to the camera!
+        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // Not adding `{ audio: true }` since we only want video now
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    document.getElementById('camera-result').innerText = "Camera allowed";
+                })
+                .catch(function(err) {
+                    document.getElementById('camera-result').innerText = "Camera not allowed";
+                });
+        }
    }
 
    function open_microphone() {
-	var audio = document.getElementById('audio');
+        var audio = document.getElementById('audio');
 
-	// Get access to the microphone!
-	if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-	    navigator.mediaDevices.getUserMedia({ audio: true })
-	        .then(function(stream) {
-                document.getElementById('microphone-result').innerText = "Microphone allowed";
-            })
-            .catch(function(err) {
-                document.getElementById('microphone-result').innerText = "Microphone not allowed";
-            });
-    }
+        // Get access to the microphone!
+        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function(stream) {
+                    document.getElementById('microphone-result').innerText = "Microphone allowed";
+                })
+                .catch(function(err) {
+                    document.getElementById('microphone-result').innerText = "Microphone not allowed";
+                });
+        }
+  }
+
+  function open_audioVideo() {
+        var audioVideo = document.getElementById('audioVideo');
+
+        // Get access to the microphone and camera!
+        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ audio: true, video: true,})
+                .then(function(stream) {
+                    document.getElementById('audioVideo-result').innerText = "Camera and Microphone allowed";
+                })
+                .catch(function(err) {
+                    document.getElementById('audioVideo-result').innerText = "Camera and Microphone not allowed";
+                });
+        }
   }
 
   function open_notifications() {
-	Notification.requestPermission().then(function(result) {
-	  if (result === 'denied' || result === 'default') {
-	    document.getElementById('notifications-result').innerText = "Notifications not allowed";
-	    return;
-	  }
-	  if (result === 'granted') {
-	    document.getElementById('notifications-result').innerText = "Notifications allowed";
-	    return;
-	  }
-	});
+        Notification.requestPermission().then(function(result) {
+          if (result === 'denied' || result === 'default') {
+            document.getElementById('notifications-result').innerText = "Notifications not allowed";
+            return;
+          }
+          if (result === 'granted') {
+            document.getElementById('notifications-result').innerText = "Notifications allowed";
+            return;
+          }
+        });
   }
   </script>
 </body>
-
 <script type="text/javascript">
     document.getElementById('location').addEventListener('click', function() {
       navigator.geolocation.getCurrentPosition(
