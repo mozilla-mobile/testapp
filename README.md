@@ -16,3 +16,4 @@ Permissions test page: https://mozilla-mobile.github.io/testapp/permissions
 
 Login form test page: https://mozilla-mobile.github.io/testapp/loginForm
 
+External links test page: https://mozilla-mobile.github.io/testapp/externalLinks.html
