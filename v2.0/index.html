@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="manifest" href="manifest.json">
+      <link href="https://fonts.googleapis.com/css?family=Hanalei+Fill" rel="stylesheet"> 
+
+    <title>Test App</title>
+    <style  type="text/css">
+      section { padding: 1em 0; }
+    p.customfont { 
+       font-family: "Hanalei Fill";
+      color: red;
+    }
+      
+    p.header { 
+        font: Arial;
+        font-weight: bold;
+    }
+</style>
+  </head>
+  <script>
+function myFunction() {
+    alert("Yo, I am an alert box!");
+}
+</script>
+  
+  
+  <body>
+
+    <h1>Lets test!</h1>
+    
+  <h2>Privacy & Security</h2>
+  <hr>
+
+  <section>
+      <p class="header">Tracking Protection (TP) Test Pages</p>
+      NOTE: Please use <a href="https://senglehardt.com/test/trackingprotection/test_pages/">https://senglehardt.com/test/trackingprotection/test_pages/</a><br>
+      until <a href="https://github.com/mozilla/tracking-test/pull/13">https://github.com/mozilla/tracking-test/pull/13</a> is ready
+
+
+      <p class="header">SSL Test</p>
+      Very bad SSL (should show up w/ a broken lock!)
+      <a href="https://very.badssl.com/">https://very.badssl.com/</a>
+
+      <p class="header">Custom Font Test</p>
+      <p class="customfont">This is some crazy font text!</p>
+
+      <p class="header">Javascript Action Test</p>
+      <button onclick="myFunction()">Click here for JS alert</button>
+     
+      <p class="header">Blocked Cookies Test</p>
+      <a href="https://www.whatismybrowser.com/detect/are-cookies-enabled">Are Cookies Enabled?</a><br>
+      <a href="https://www.whatismybrowser.com/detect/are-third-party-cookies-enabled">Are 3rd Party Cookies Enabled?</a>
+
+    </section>
+    
+    <h2>HTML Controls</h2>
+    <hr>
+
+    <section>
+      <p class="header">Password Form</p>
+      (will show a doorhanger to remember the password)
+      <form>
+        <input type="text" placeholder="Username" /><br />
+        <input type="password" placeholder="Password" /><br />
+        <input type="submit" />
+      </form>
+    </section>
+
+    <section>
+          <p class="header">Dropdown Menu</p>
+
+      <select>
+        <option>Some option</option>
+        <option>This option</option>
+        <option>That option</option>
+        <option>Another option</option>
+      </select>
+    </section>
+
+    <section>
+      <p class="header">Location Menu</p>
+      <button id="location">Get Location</button>
+      <p id="location-result"></p>
+    </section>
+
+        <section>
+      <p class="header">File Download</p>
+      <a href="https://storage.googleapis.com/mobile_test_assets/public/web_icon.png" download>Download this icon</a>
+    </section>
+    
+          <section>
+      <p class="header">Open PDF File</p>
+      <a href="https://storage.googleapis.com/mobile_test_assets/public/lorem_ipsum.pdf" target="_blank">Open this PDF File</a>
+    </section>
+
+    
+    <section>
+      <p class="header">Date Picker Menu</p>
+      <input type="date" placeholder="Pick a Date" />
+    </section>
+
+    <section>
+      <input type="datetime-local" placeholder="Pick a Date/Time" />
+    </section>
+
+    <section>
+      <p class="header">Color Picker Menu</p>
+      <input type="color" />
+    </section>
+
+    <section>
+       <p class="header">Input Text Menu</p>
+      <p>Make sure you can copy <input type="text" placeholder="and Paste" /> me</p>
+    </section>
+
+    <p class="header">Misc Link Types</p>
+    <section>
+      <a href="http://google.com">External link</a>
+    </section>
+
+    <section>
+   <a href='market://details?id=org.mozilla.firefox&referrer="+"utm_source%3Dmozilla%26utm_medium%3DReferral%26utm_campaign%3Dmozilla-org'>External app (play store) using URL (market://...)</a>
+    </section>
+
+    <section>
+      <a href="http://mozilla-mobile.github.io/testapp2/">External app same origin</a><br>
+      see: <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy">Same Origin Policy</a>
+    </section>
+
+    <section>
+      <a href="https://m.youtube.com/watch?v=I47Y6VHc3Ms">Link to youtube</a> - make sure video plays
+    </section>
+
+    <section>
+      <a href="mailto://notta-r3al-3mail@gmail.com">Email link</a>
+    </section>
+
+    <section>
+      <a href="tel://+1-234-555-1212">Telephone link</a>
+    </section>
+    
+
+<h2>Site Permissions</h2>
+<hr>
+
+   <section>
+   <p class="header">Test Geolocation</p>
+   <span id="live-geolocation">click here</span>
+   </section>
+
+   <section>
+   <p class="header">Test Camera Dialogue</p>
+   <input id=video type=button value="Open camera" onclick=open_camera() >
+   </section>
+
+   <section>
+   <p class="header">Test Microphone Dialogue</p>
+   <input id=audio  type=button value="Open microphone" onclick=open_microphone() >
+   </section>
+
+   <section>
+   <p class="header">Test Notifications Dialogue</p>
+   <input id=notify type=button value="Open notifications dialogue" onclick=open_notifications() >
+   </section>
+
+  <script>
+   // Grab elements, create settings, etc.
+   function open_camera() {
+	var video = document.getElementById('video');
+
+	// Get access to the camera!
+	if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+	    // Not adding `{ audio: true }` since we only want video now
+	    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+		//video.src = window.URL.createObjectURL(stream);
+		//video.srcObject = stream;
+		video.play();
+	    });
+	}
+   }
+
+   function open_microphone() {
+	var audio = document.getElementById('audio');
+
+	// Get access to the camera!
+	if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+	    // Not adding `{ audio: true }` since we only want audio now
+	    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+		//audio.src = window.URL.createObjectURL(stream);
+		//audio.srcObject = stream;
+		audio.play();
+	    });
+	}
+  }
+  
+  function open_notifications() {
+	Notification.requestPermission().then(function(result) {
+	  if (result === 'denied') {
+	    console.log('Permission wasn\'t granted. Allow a retry.');
+	    return;
+	  }
+	  if (result === 'default') {
+	    console.log('The permission request was dismissed.');
+	    return;
+	  }
+	  // Do something with the granted permission.
+	});
+  }
+  </script>
+
+
+
+<h2>Other</h2>
+<hr>
+   <section>
+      <p class="header">File Upload</p>
+    <a href="https://webcompat.com/issues/new?url=http%3A%2F%2Fwww.mozilla.org">Web Compat Reporting Tool</a>
+    </section>
+
+  </body>
+
+  <script src="j/jquery.js"></script>
+  <script src="j/geoPosition.js"></script>
+  <script src="//maps.googleapis.com/maps/api/js?sensor=true"></script>
+  <script>
+  function supports(bool, suffix) {
+    var s = "Your browser ";
+    if (bool) {
+      s += "supports " + suffix + ".";
+    } else {
+      s += "does not support " + suffix + ". :(";
+    }
+    return s;
+  }
+  function lookup_location() {
+    geoPosition.getCurrentPosition(show_map, show_map_error);
+  }
+  function show_map(loc) {
+    $("#geo-wrapper").css({'width':'320px','height':'350px'});
+    var map = new google.maps.Map(document.getElementById("geo-wrapper"), {zoom: 14, mapTypeControl:true, zoomControl: true, mapTypeId: google.maps.MapTypeId.ROADMAP});
+    var center = new google.maps.LatLng(loc.coords.latitude,loc.coords.longitude);
+    map.setCenter(center);
+    var marker = new google.maps.Marker({map: map, position: center, draggable: false, title: "You are here (more or less)"});
+  }
+  function show_map_error() {
+    $("#live-geolocation").html('Unable to determine your location.');
+  }
+  $(function() {
+    if (geoPosition.init()) {
+      $("#live-geolocation").html(supports(true, "geolocation") + '<br><input type=button value="Open Geolocation" onclick="lookup_location();return false">');
+    } else {
+      $("#live-geolocation").html(supports(false, "geolocation"));
+    }
+  });
+  </script>
+
+  <script type="text/javascript">
+    document.getElementById('location').addEventListener('click', function() {
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        document.getElementById('location-result').innerText = JSON.stringify({
+          longitude: pos.coords.longitude,
+          latitude: pos.coords.latitude
+        });
+      });
+    });
+  </script>
+
+</html>
