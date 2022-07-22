@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Html_Form</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="manifest" href="manifest.json">
+  <link href="https://fonts.googleapis.com/css?family=Hanalei+Fill" rel="stylesheet">
+</head>
+
+<p>Calendar Form</p>
+<section>
+  <input type="date" id="calendar">
+  <button onclick="printDate()" id="submitDate"> Submit date </button>
+  <div id="displayDate"></div>
+</section>
+
+<p>Clock Form</p>
+<section>
+  <input type="time" id="clock">
+  <button onclick="printTime()" id="submitTime"> Submit time </button>
+  <div id="displayTime"></div>
+</section>
+
+<p>Color Form</p>
+<section>
+  <input type="color" id="colorPicker">
+  <button onclick="printColor()" id="submitColor"> Submit color </button>
+  <div id="displayColor"></div>
+</section>
+
+<script>
+    function printDate() {
+      let calendar = document.querySelector("#calendar");
+      let displayDate = document.querySelector("#displayDate");
+
+      displayDate.innerHTML = "Selected date is: " + calendar.value;
+    }
+  </script>
+
+<script>
+    function printTime() {
+      let time = document.querySelector("#clock");
+      let displayTime = document.querySelector("#displayTime");
+
+      displayTime.innerHTML = "Selected time is: " + time.value;
+    }
+  </script>
+
+<script>
+    function printColor() {
+      let colorPicker = document.querySelector("#colorPicker");
+      let displayColor = document.querySelector("#displayColor");
+
+      displayColor.innerHTML = "Selected color is: " + colorPicker.value;
+    }
+  </script>
+</html>
