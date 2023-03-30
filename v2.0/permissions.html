@@ -2,7 +2,7 @@
 <!-- This Source Code Form is subject to the terms of the Mozilla Public
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
@@ -22,26 +22,38 @@
 
 <section>
     <p class="header">Test Camera Dialogue</p>
-    <input id=video type=button value="Open camera" onclick=open_camera() >
+    <input id=video type=button value="Open camera" onclick=open_camera()>
     <p id="camera-result"></p>
 </section>
 
 <section>
     <p class="header">Test Microphone Dialogue</p>
-    <input id=audio  type=button value="Open microphone" onclick=open_microphone() >
+    <input id=audio type=button value="Open microphone" onclick=open_microphone()>
     <p id="microphone-result"></p>
 </section>
 
 <section>
     <p class="header">Test Camera & Microphone Dialogue</p>
-    <input id=audioVideo  type=button value="Camera & Microphone" onclick=open_audioVideo() >
+    <input id=audioVideo type=button value="Camera & Microphone" onclick=open_audioVideo()>
     <p id="audioVideo-result"></p>
 </section>
 
 <section>
     <p class="header">Test Notifications Dialogue</p>
-    <input id=notify type=button value="Open notifications dialogue" onclick=open_notifications() >
+    <input id=notify type=button value="Open notifications dialogue" onclick=open_notifications()>
     <p id="notifications-result"></p>
+</section>
+
+<section>
+    <p class="header">Persistent Storage Dialogue</p>
+    <input id="persistentStorageButton" type=button value="Persistent storage">
+    <p id="persistentStorageResult"></p>
+</section>
+
+<section>
+    <p class="header">DRM-controlled content Dialogue</p>
+    <input id="drmPermissionButton" type=button value="DRM-controlled content">
+    <p id="drmPermissionResult"></p>
 </section>
 
 <script>
@@ -104,7 +116,8 @@
           }
         });
   }
-  </script>
+
+</script>
 </body>
 <script type="text/javascript">
     document.getElementById('location').addEventListener('click', function() {
@@ -119,5 +132,102 @@
         document.getElementById('location-result').innerText = error.message;
       });
     });
-  </script>
+</script>
+
+<script type="text/javascript">
+    // Script for the Persistent storage permissions tests
+    async function requestStoragePermission() {
+        if (navigator.storage && navigator.storage.persist) {
+          const permissionGranted = await navigator.storage.persist();
+          return permissionGranted;
+        } else {
+          return false;
+        }
+      }
+
+    document.getElementById('persistentStorageButton').addEventListener('click', () => {
+        requestStoragePermission()
+          .then((permissionGranted) => {
+            if (permissionGranted) {
+              document.getElementById("persistentStorageResult").innerHTML=`Persistent storage permission granted`;
+            } else {
+              document.getElementById("persistentStorageResult").innerHTML=`Persistent storage permission denied`;
+            }
+          })
+      });
+</script>
+
+<script type="text/javascript">
+<!-- Reusing source code from https://github.com/chromium/permission.site.
+
+Copyright 2016, Google Inc. All Rights Reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+Neither the name of Google Inc. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
+
+    document.getElementById('drmPermissionButton').addEventListener('click', () => {
+      var keySystems = [
+        "com.example.somesystem",  // Ensure no real system is the first tried.
+        "com.widevine.alpha",
+        "com.microsoft.playready",
+        "com.adobe.primetime",
+        "com.apple.fps.2_0",
+        "com.apple.fps",
+        "com.apple.fps.1_0",
+        "com.example.somesystem"  // Ensure no real system is the last tried.
+      ];
+      var tryKeySystem = function(keySystem) {
+        // http://w3c.github.io/encrypted-media/#idl-def-mediakeysystemconfiguration
+        var capabilities = [
+          { contentType: 'video/mp4' },
+          { contentType: 'audio/webm' },
+        ];
+        navigator.requestMediaKeySystemAccess(
+          keySystem,
+          [
+            { distinctiveIdentifier: "required",
+              persistentState: "required",
+              audioCapabilities: capabilities,
+              videoCapabilities: capabilities,
+            },
+            { distinctiveIdentifier: "required",
+              videoCapabilities: capabilities,
+            },
+            { persistentState: "required",
+              audioCapabilities: capabilities,
+            },
+            { audioCapabilities: capabilities,
+              label: "empty"
+            },
+            { label: "no capabilities" }
+          ]
+        ).then(
+          function (mediaKeySystemAccess) {
+            document.getElementById('drmPermissionResult').innerHTML=`DRM-controlled content allowed`;
+          },
+          function (error) {
+            if (keySystems.length > 0)
+              return tryKeySystem(keySystems.shift());
+
+              document.getElementById('drmPermissionResult').innerHTML=`DRM-controlled content not allowed`;
+          }
+        );
+      };
+      tryKeySystem(keySystems.shift());
+    })
+
+</script>
 </html>
