@@ -1,0 +1,11 @@
+{
+  "name": "Yay an app with a super long name",
+  "short_name": "TEST_APP",
+  "display": "standalone",
+  "theme_color": "#FF69B4",
+  "icons": [{
+    "src": "web_icon.png",
+    "sizes": "300x300",
+    "type": "image/png"
+  }]
+}
